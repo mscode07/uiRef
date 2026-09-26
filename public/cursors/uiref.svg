@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="48" viewBox="0 0 44 48">
+<defs><filter id="shadow" x="-60%" y="-50%" width="240%" height="240%"><feDropShadow dx="0" dy="2" stdDeviation="2.7" flood-color="#91a9cd" flood-opacity=".7"/><feDropShadow dx="0" dy="1" stdDeviation=".8" flood-color="#20211f" flood-opacity=".45"/></filter></defs>
+<path d="M7 6 L11.1 33 Q11.4 35 12.8 33.4 L19 25.3 L28.7 24.9 Q30.8 24.8 29.2 23.4 L8.6 5.2 Q6.8 3.7 7 6Z" fill="#20211f" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" filter="url(#shadow)"/>
+</svg>

@@ -1,5 +1,8 @@
 "use client";
-import { Brand } from "./brand";
+import { SiteHeader } from "./site-header";
+import { LandingFooter } from "./landing-footer";
+import { HowItWorks } from "./how-it-works";
+import { ReferenceCarousel } from "./ui/reference-carousel";
 import { cn } from "@/lib/utils";
 
 import { useEffect, useRef, useState } from "react";
@@ -104,51 +107,14 @@ export function Landing() {
     setPreview(ref);
   }
   return (
-    <div className="landing mx-auto max-w-[1600px] px-16 max-[1101px]:px-10 max-[801px]:px-8 max-[481px]:px-6">
+    <div className="landing mx-auto max-w-[1600px] overflow-x-clip px-16 max-[1101px]:px-10 max-[801px]:px-8 max-[481px]:px-6">
       <a
         className="skip-link fixed -top-20 left-4 z-[100] bg-foreground p-3 text-white focus:top-[10px]"
         href="#main"
       >
         Skip to content
       </a>
-      <header
-        className={cn(
-          "landing-header flex min-h-[88px] items-center justify-between border-b border-border",
-          "max-[801px]:min-h-[76px]",
-          "max-[481px]:min-h-[72px]",
-          "pointer-fine:[&_a:hover]:text-brand",
-        )}
-      >
-        <Link
-          href="/"
-          className="landing-brand text-[28px] font-bold tracking-[-0.04em] no-underline max-[481px]:text-[25px]"
-          aria-label="UIRef home"
-        >
-          <Brand />
-        </Link>
-        <nav
-          className="flex items-center gap-12 max-[481px]:gap-5"
-          aria-label="Main navigation"
-        >
-          <a
-            className={cn(
-              "inline-flex items-center gap-3 text-[14px] no-underline transition-colors duration-160 ease-[ease]",
-              "max-[481px]:text-[12px]",
-              "max-[481px]:[&_svg]:hidden",
-              "text-muted-foreground",
-            )}
-            href="#how-it-works"
-          >
-            How it works
-          </a>
-          <Link
-            className="inline-flex items-center gap-3 text-[14px] no-underline transition-colors duration-160 ease-[ease] max-[481px]:text-[12px] max-[481px]:[&_svg]:hidden"
-            href="/library"
-          >
-            Open library <ArrowRight size={16} />
-          </Link>
-        </nav>
-      </header>
+      <SiteHeader />
       <main id="main" className="min-w-0 outline-none">
         <section
           className={cn(
@@ -209,9 +175,8 @@ export function Landing() {
             </a>
           </div>
           <div
-            className="hero-demo min-w-0 scroll-mt-8 max-[801px]:mx-auto max-[801px]:w-full max-[801px]:max-w-[640px]"
+            className="hero-demo min-w-0 scroll-mt-28 max-[801px]:mx-auto max-[801px]:w-full max-[801px]:max-w-[640px]"
             ref={stage}
-            id="how-it-works"
             aria-label="How UIRef works"
             onFocusCapture={() => {
               if (document.documentElement.dataset.input === "keyboard")
@@ -353,12 +318,13 @@ export function Landing() {
             </div>
           </div>
         </section>
+        <HowItWorks />
         <section
-          className="landing-references grid scroll-mt-8 grid-cols-[30%_1fr] gap-10 border-t border-border py-12 max-[1101px]:grid-cols-1 max-[1101px]:gap-6 max-[481px]:py-8"
+          className="landing-references scroll-mt-28 border-t border-border py-12 md:py-16"
           id="references"
           aria-labelledby="references-title"
         >
-          <div className="references-intro">
+          <div className="references-intro mx-auto mb-8 max-w-xl text-center">
             <h2
               id="references-title"
               className="mb-4 text-[26px] leading-[1.3] font-semibold tracking-[-0.03em] max-[481px]:text-[25px]"
@@ -367,7 +333,7 @@ export function Landing() {
               <br />
               ready when you need them.
             </h2>
-            <p className="mb-4 max-w-[340px] text-[14px] leading-[1.7] text-muted-foreground max-[1101px]:max-w-[550px]">
+            <p className="mx-auto mb-4 max-w-[440px] text-[14px] leading-[1.7] text-muted-foreground">
               Save and organize interfaces from across the web. Keep the details
               that matter, so you can return to them with a fresh eye.
             </p>
@@ -375,50 +341,10 @@ export function Landing() {
               A few sample references to explore
             </span>
           </div>
-          <div className="landing-gallery grid grid-cols-4 gap-4 max-[481px]:grid-cols-2 max-[481px]:gap-x-3 max-[481px]:gap-y-6">
-            {[references[2], references[0], references[1], references[3]].map(
-              (ref) => (
-                <button
-                  className="landing-thumbnail group/thumbnail min-w-0 self-start border-0 bg-transparent p-0 text-left"
-                  key={ref.id}
-                  onClick={() => open(ref)}
-                >
-                  <div className="overflow-hidden rounded-lg transition-transform duration-160 ease-out group-active/thumbnail:[transform:scale(.985)] motion-reduce:transform-none">
-                    <Image
-                      src={`/references/${ref.id}.png`}
-                      alt=""
-                      className="block h-auto w-full transition-transform duration-200 ease-out pointer-fine:group-hover/thumbnail:[transform:scale(1.025)] motion-reduce:transform-none"
-                      width={1448}
-                      height={1086}
-                      sizes="(max-width: 600px) 45vw, 22vw"
-                    />
-                  </div>
-                  <h3 className="mt-[10px] mb-[3px] text-[13px] leading-normal font-[550]">
-                    {ref.name}
-                  </h3>
-                  <p className="text-[12px] text-muted-foreground">
-                    {ref.category}
-                  </p>
-                </button>
-              ),
-            )}
-          </div>
+          <ReferenceCarousel onPreview={open} suspended={!!preview} />
         </section>
       </main>
-      <footer className="landing-footer flex items-center gap-6 border-t border-border pt-6 pb-8 text-[12px] text-muted-foreground max-[481px]:flex-wrap max-[481px]:gap-3">
-        <Brand className="text-[20px] [&_svg]:h-6 [&_svg]:w-6" />
-        <p>A personal place for a developing eye.</p>
-        <Link
-          className={cn(
-            "ml-auto inline-flex items-center gap-3 text-[12px] no-underline transition-colors duration-160 ease-[ease]",
-            "pointer-fine:hover:text-brand",
-            "max-[481px]:m-0 max-[481px]:w-full",
-          )}
-          href="/library"
-        >
-          Go to your library <ArrowRight size={15} />
-        </Link>
-      </footer>
+      <LandingFooter onPreview={open} />
       <Dialog
         open={!!preview}
         onOpenChange={(open) => !open && setPreview(null)}

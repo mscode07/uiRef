@@ -5,6 +5,12 @@ import { fetchPublicResource, publicTarget } from "./network";
 import { storage } from "../storage";
 
 export async function captureWebsite(url: string) {
+  const capture = await captureWebsiteInMemory(url);
+  return { screenshot: await storage.put(capture.bytes, "png"), evidence: capture.evidence };
+}
+
+/** Capture for temporary previews: never writes an image or a database record. */
+export async function captureWebsiteInMemory(url: string) {
   await publicTarget(url);
   const installedChrome =
     process.platform === "darwin" &&
@@ -138,7 +144,7 @@ export async function captureWebsite(url: string) {
       animations: "disabled",
       timeout: 12000,
     });
-    return { screenshot: await storage.put(screenshot, "png"), evidence };
+    return { bytes: screenshot, evidence };
   } finally {
     clearTimeout(deadline);
     abort.abort();

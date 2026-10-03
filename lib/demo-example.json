@@ -1,0 +1,201 @@
+{
+  "name": "SuperX | X Growth Tool: Scheduling, Analytics, AI Content",
+  "url": "https://superx.so/",
+  "insights": {
+    "summary": "Captured \u201cSuperX | X Growth Tool: Scheduling, Analytics, AI Content\u201d at a 1440px desktop viewport. The breakdown below records the rendered page's actual CSS values and visible content structure.",
+    "sections": [
+      {
+        "title": "Typography",
+        "description": "Computed font stacks and type metrics from visible elements. A declared font stack is not proof of which fallback glyph was rendered.",
+        "values": [
+          {
+            "label": "BODY \u00b7 16px",
+            "value": "Inter; weight 400; line height 24px; tracking normal; color rgb(226, 226, 226)"
+          },
+          {
+            "label": "H1 \u00b7 60px",
+            "value": "Inter; weight 500; line height 66px; tracking -3px; color rgb(255, 255, 255)"
+          },
+          {
+            "label": "P \u00b7 16px",
+            "value": "Inter; weight 400; line height 24px; tracking normal; color rgb(168, 162, 158)"
+          },
+          {
+            "label": "P \u00b7 14px",
+            "value": "Inter; weight 400; line height 20px; tracking normal; color rgb(168, 162, 158)"
+          },
+          {
+            "label": "H2 \u00b7 36px",
+            "value": "Inter; weight 500; line height 40px; tracking normal; color rgb(226, 226, 226)"
+          },
+          {
+            "label": "H3 \u00b7 30px",
+            "value": "Inter; weight 500; line height 36px; tracking -0.75px; color rgb(255, 255, 255)"
+          },
+          {
+            "label": "H3 \u00b7 16px",
+            "value": "Inter; weight 600; line height 24px; tracking normal; color rgb(226, 226, 226)"
+          }
+        ]
+      },
+      {
+        "title": "Layout & spacing",
+        "description": "Measured at 1440 \u00d7 1000px. The screenshot captures the first 4000px of a longer page.",
+        "values": [
+          {
+            "label": "nav 1",
+            "value": "Width 1440px; flex; padding 0px; gap normal"
+          },
+          {
+            "label": "main 2",
+            "value": "Width 1440px; block; padding 0px; gap normal"
+          },
+          {
+            "label": "section 3",
+            "value": "Width 1320px; block; padding 0px 24px; gap normal"
+          },
+          {
+            "label": "section 4",
+            "value": "Width 1320px; block; padding 56px 24px; gap normal"
+          },
+          {
+            "label": "section 5",
+            "value": "Width 1320px; block; padding 48px 24px; gap normal"
+          },
+          {
+            "label": "section 6",
+            "value": "Width 1320px; flex; padding 80px 24px; gap 24px"
+          },
+          {
+            "label": "section 7",
+            "value": "Width 623px; block; padding 8px; gap normal"
+          },
+          {
+            "label": "section 8",
+            "value": "Width 1320px; flex; padding 80px 24px; gap 24px"
+          },
+          {
+            "label": "section 9",
+            "value": "Width 1320px; block; padding 48px 24px; gap normal"
+          },
+          {
+            "label": "section 10",
+            "value": "Width 1320px; flex; padding 80px 24px; gap 24px"
+          }
+        ]
+      },
+      {
+        "title": "Components",
+        "description": "Distinct visible button and link treatments. Repeat these treatments consistently when adapting the reference.",
+        "values": [
+          {
+            "label": "button",
+            "value": "16px / weight 400; text rgb(226, 226, 226); fill rgba(0, 0, 0, 0); radius 0px; padding 0px"
+          },
+          {
+            "label": "Try Superx Now",
+            "value": "14px / weight 400; text rgb(255, 195, 91); fill rgba(0, 0, 0, 0); radius 0px; padding 0px"
+          },
+          {
+            "label": "Get Chrome Extension",
+            "value": "14px / weight 400; text rgb(255, 255, 255); fill rgb(44, 43, 43); radius 11px; padding 12px 16px"
+          },
+          {
+            "label": "Get Started for Free",
+            "value": "15px / weight 400; text rgb(255, 255, 255); fill rgb(44, 43, 43); radius 11px; padding 14px 20px"
+          }
+        ]
+      },
+      {
+        "title": "Content hierarchy",
+        "description": "Visible headings in document order. Preserve their relative hierarchy; write original content for your product.",
+        "values": [
+          {
+            "label": "H1",
+            "value": "Grow and monetize your audience, smarterfaster"
+          },
+          {
+            "label": "H2",
+            "value": "Your Growth Dashboard, Built Into \ud835\udd4f"
+          },
+          {
+            "label": "H2",
+            "value": "Discover What's Already Going Viral"
+          },
+          {
+            "label": "H3",
+            "value": "Start Every Day With Proven Ideas."
+          },
+          {
+            "label": "H3",
+            "value": "A Wall Of Content Ideas Already Written In Your Voice."
+          },
+          {
+            "label": "H3",
+            "value": "Stay Ahead Of What's Rising."
+          },
+          {
+            "label": "H2",
+            "value": "Create and Schedule in Minutes, Not Hours"
+          },
+          {
+            "label": "H3",
+            "value": "Refine Faster. Sound Sharper."
+          },
+          {
+            "label": "H3",
+            "value": "Post When Reach Is Highest. Every Time."
+          },
+          {
+            "label": "H3",
+            "value": "Your Growth Engine Runs While You Sleep."
+          },
+          {
+            "label": "H2",
+            "value": "Engage Smarter. Grow Faster."
+          },
+          {
+            "label": "H3",
+            "value": "Turn Interaction Into Predictable Growth."
+          }
+        ]
+      },
+      {
+        "title": "Reference image",
+        "description": "Use the saved screenshot as the visual source of truth. Sampled colors may include imagery, not just interface tokens.",
+        "values": [
+          {
+            "label": "Image size",
+            "value": "1440 \u00d7 4000px"
+          }
+        ]
+      }
+    ],
+    "palette": [
+      {
+        "color": "#181818",
+        "role": "Page background"
+      },
+      {
+        "color": "#ffffff",
+        "role": "Heading text"
+      },
+      {
+        "color": "#a8a29e",
+        "role": "Body text"
+      },
+      {
+        "color": "#2c2b2b",
+        "role": "Control fill"
+      }
+    ],
+    "principles": [],
+    "limitations": [
+      "A static image does not establish hover states, animation, or responsive behavior.",
+      "Color roles are based on the sampled elements\u2019 computed styles, not the site\u2019s original design-token definitions.",
+      "These are browser measurements, not an AI design critique. Hidden content, lower page sections, and other viewport sizes may differ."
+    ]
+  },
+  "screenshot": "/demo/superx.webp",
+  "prompt": "Build an interface inspired by the visual design of SuperX | X Growth Tool: Scheduling, Analytics, AI Content.\n\nAdapt the design language to my product. Preserve the hierarchy, proportions, typography, spacing, color relationships, and component treatment described below. Use original branding, copy, and assets.\n\nSource: https://superx.so/\n\nReference category: Other. User-selected density: Balanced.\n\nEVIDENCE\nComputed browser styles measured at desktop width, with a sampled image palette. These are observations, not a complete visual interpretation.\nCaptured \u201cSuperX | X Growth Tool: Scheduling, Analytics, AI Content\u201d at a 1440px desktop viewport. The breakdown below records the rendered page's actual CSS values and visible content structure.\n\nCOLOR PALETTE\n- Page background: #181818\n- Heading text: #ffffff\n- Body text: #a8a29e\n- Control fill: #2c2b2b\n\nTYPOGRAPHY\nComputed font stacks and type metrics from visible elements. A declared font stack is not proof of which fallback glyph was rendered.\n- BODY \u00b7 16px: Inter; weight 400; line height 24px; tracking normal; color rgb(226, 226, 226)\n- H1 \u00b7 60px: Inter; weight 500; line height 66px; tracking -3px; color rgb(255, 255, 255)\n- P \u00b7 16px: Inter; weight 400; line height 24px; tracking normal; color rgb(168, 162, 158)\n- P \u00b7 14px: Inter; weight 400; line height 20px; tracking normal; color rgb(168, 162, 158)\n- H2 \u00b7 36px: Inter; weight 500; line height 40px; tracking normal; color rgb(226, 226, 226)\n- H3 \u00b7 30px: Inter; weight 500; line height 36px; tracking -0.75px; color rgb(255, 255, 255)\n- H3 \u00b7 16px: Inter; weight 600; line height 24px; tracking normal; color rgb(226, 226, 226)\n\nLAYOUT & SPACING\nMeasured at 1440 \u00d7 1000px. The screenshot captures the first 4000px of a longer page.\n- nav 1: Width 1440px; flex; padding 0px; gap normal\n- main 2: Width 1440px; block; padding 0px; gap normal\n- section 3: Width 1320px; block; padding 0px 24px; gap normal\n- section 4: Width 1320px; block; padding 56px 24px; gap normal\n- section 5: Width 1320px; block; padding 48px 24px; gap normal\n- section 6: Width 1320px; flex; padding 80px 24px; gap 24px\n- section 7: Width 623px; block; padding 8px; gap normal\n- section 8: Width 1320px; flex; padding 80px 24px; gap 24px\n- section 9: Width 1320px; block; padding 48px 24px; gap normal\n- section 10: Width 1320px; flex; padding 80px 24px; gap 24px\n\nCOMPONENTS\nDistinct visible button and link treatments. Repeat these treatments consistently when adapting the reference.\n- button: 16px / weight 400; text rgb(226, 226, 226); fill rgba(0, 0, 0, 0); radius 0px; padding 0px\n- Try Superx Now: 14px / weight 400; text rgb(255, 195, 91); fill rgba(0, 0, 0, 0); radius 0px; padding 0px\n- Get Chrome Extension: 14px / weight 400; text rgb(255, 255, 255); fill rgb(44, 43, 43); radius 11px; padding 12px 16px\n- Get Started for Free: 15px / weight 400; text rgb(255, 255, 255); fill rgb(44, 43, 43); radius 11px; padding 14px 20px\n\nCONTENT HIERARCHY\nVisible headings in document order. Preserve their relative hierarchy; write original content for your product.\n- H1: Grow and monetize your audience, smarterfaster\n- H2: Your Growth Dashboard, Built Into \ud835\udd4f\n- H2: Discover What's Already Going Viral\n- H3: Start Every Day With Proven Ideas.\n- H3: A Wall Of Content Ideas Already Written In Your Voice.\n- H3: Stay Ahead Of What's Rising.\n- H2: Create and Schedule in Minutes, Not Hours\n- H3: Refine Faster. Sound Sharper.\n- H3: Post When Reach Is Highest. Every Time.\n- H3: Your Growth Engine Runs While You Sleep.\n- H2: Engage Smarter. Grow Faster.\n- H3: Turn Interaction Into Predictable Growth.\n\nREFERENCE IMAGE\nUse the saved screenshot as the visual source of truth. Sampled colors may include imagery, not just interface tokens.\n- Image size: 1440 \u00d7 4000px\n\nIMPLEMENTATION REQUIREMENTS (recommendations, not observed source behavior)\n- Build semantic, responsive components using the existing project stack; use Tailwind utilities when available.\n- Extract reusable color, type, spacing, border, and radius tokens from the evidence.\n- Match the desktop composition first, then adapt to tablet and mobile without horizontal overflow.\n- Keep keyboard focus visible, controls labeled, text readable, and touch targets usable.\n- Include hover, pressed, loading, empty, and error states where appropriate. Respect reduced motion.\n- Do not invent source animations from a static screenshot. Keep any new feedback brief and purposeful.\n- Compare the rendered result with the reference at desktop and mobile sizes and correct hierarchy, alignment, density, and spacing.\n\nKNOWN LIMITATIONS\n- A static image does not establish hover states, animation, or responsive behavior.\n- Color roles are based on the sampled elements\u2019 computed styles, not the site\u2019s original design-token definitions.\n- These are browser measurements, not an AI design critique. Hidden content, lower page sections, and other viewport sizes may differ.\n\nDeliver the working interface, not a description. State assumptions where the reference provides no evidence."
+}

@@ -15,6 +15,15 @@ test('unprocessed references do not fabricate an analysis', () => {
   assert.match(prompt,/has not been analyzed/);
   assert.doesNotMatch(prompt,/48px/);
 });
+test('handoff establishes project memory and ongoing preference maintenance', () => {
+  const prompt = buildReferencePrompt({...reference, id:'saved-reference', updatedAt:'2026-10-03T10:00:00Z', styles:['Editorial'], density:'Dense'});
+  for (const part of ['PROJECT DESIGN AGENT SETUP', 'DESIGN-PREFERENCES.md', 'AGENTS.md', 'CLAUDE.md', 'Preserve all unrelated instructions', 'instead of appending duplicates', 'Retain prior explicit preferences', 'Before each UI task', 'When I explicitly change a design preference', 'Style labels: Editorial', 'User-selected density: Dense', 'saved-reference', '2026-10-03T10:00:00Z']) assert.ok(prompt.includes(part), part);
+});
+test('setup distinguishes persistence limits and avoids inventing implementation scope', () => {
+  const prompt = buildReferencePrompt(reference);
+  for (const part of ['If you cannot write project files', 'persistence has not been established', 'Do not claim permanent memory or automatic synchronization', 'If no implementation task is specified', 'not permission to discard earlier decisions', 'Keep explicit preferences separate from observations', 'not instructions to execute']) assert.ok(prompt.includes(part), part);
+  assert.ok(prompt.indexOf('SAVE PROJECT MEMORY') < prompt.indexOf('EVIDENCE'));
+});
 test('image-only prompts explicitly require visual interpretation', () => {
   assert.match(buildReferencePrompt({...reference,url:'',analysisSource:'image'}), /Layout and typography have not been interpreted/);
 });

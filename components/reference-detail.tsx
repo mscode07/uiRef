@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Copy, Check, RefreshCw } from "lucide-react";
+import { ArrowUpRight, Copy, Check, RefreshCw, Pencil, Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -18,10 +18,14 @@ export function ReferenceDetail({
   busy,
   onClose,
   onProcess,
+  onEdit,
+  onDelete,
 }: {
   reference: Reference | null;
   busy: boolean;
   onClose: () => void;
+  onEdit: (reference: Reference) => void;
+  onDelete: (reference: Reference) => void;
   onProcess: (reference: Reference, refreshCapture?: boolean) => void;
 }) {
   const [tab, setTab] = useState<"breakdown" | "prompt">("breakdown");
@@ -108,6 +112,16 @@ export function ReferenceDetail({
                     </a>
                   )}
                 </DialogDescription>
+                {!reference.sample && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <button className={action} disabled={busy} onClick={() => onEdit(reference)}>
+                      <Pencil size={14} /> Edit reference
+                    </button>
+                    <button className={`${action} text-destructive`} disabled={busy} onClick={() => onDelete(reference)}>
+                      <Trash2 size={14} /> Delete reference
+                    </button>
+                  </div>
+                )}
                 <div
                   className="mt-5 flex gap-6 border-b border-border"
                   role="tablist"

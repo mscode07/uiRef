@@ -15,6 +15,13 @@ const pending = new Map<string, Promise<Reference | null>>();
 
 async function processReference(reference: Reference, refreshCapture = false) {
   let current = { ...reference };
+  let revision = reference.updatedAt;
+  async function persist(updates: Partial<Reference>) {
+    const saved = await updateReference(reference.id, updates, revision);
+    if (!saved) throw new Error("Reference changed or was deleted during processing.");
+    revision = saved.updatedAt;
+    return saved;
+  }
   let evidence: WebsiteEvidence | undefined = current.designEvidence
     ? JSON.parse(current.designEvidence)
     : undefined;
@@ -34,20 +41,20 @@ async function processReference(reference: Reference, refreshCapture = false) {
         captureError: "",
         designEvidence: JSON.stringify(evidence),
       };
-      await updateReference(current.id, current);
+      await persist(current);
     } catch (error) {
       console.error(
         "Reference capture failed:",
         error instanceof Error ? error.message : "Unknown capture error",
       );
-      return updateReference(current.id, {
+      return persist({
         captureError:
           "This website could not be captured. It may block automated previews or be unavailable. Retry, or save a screenshot of the page instead.",
       });
     }
   }
   if (!current.screenshot)
-    return updateReference(current.id, {
+    return persist({
       analysisError: "Add a screenshot or public website URL before analyzing.",
     });
   try {
@@ -60,11 +67,11 @@ async function processReference(reference: Reference, refreshCapture = false) {
         analysisSource: evidence ? "measured" : "image",
         analyzedAt: new Date().toISOString(),
       };
-      await updateReference(current.id, current);
+      await persist(current);
     }
     try {
       const insights = await visionInsights(current, bytes, evidence);
-      return updateReference(current.id, {
+      return persist({
         insights,
         analysisSource: "vision",
         analysisError: "",
@@ -77,10 +84,10 @@ async function processReference(reference: Reference, refreshCapture = false) {
         /^(Connect a vision|The vision API|Vision analysis)/.test(error.message)
           ? error.message
           : "Vision analysis returned an incomplete result. Your preview and existing details are saved; try Analyze again.";
-      return updateReference(current.id, { analysisError: message });
+      return persist({ analysisError: message });
     }
   } catch {
-    return updateReference(current.id, {
+    return persist({
       analysisError:
         "The saved image could not be read. Try saving a PNG, JPEG, or WebP screenshot again.",
     });

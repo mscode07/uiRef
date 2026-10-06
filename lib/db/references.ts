@@ -44,13 +44,13 @@ export async function saveReference(reference: Reference) {
   await write;
 }
 
-export async function updateReference(id: string, updates: Partial<Reference>) {
+export async function updateReference(id: string, updates: Partial<Reference>, expectedUpdatedAt?: string) {
   const patch = { ...updates, updatedAt: new Date().toISOString() };
   if (process.env.MONGODB_URI) {
     return (await database())
       .collection<Reference>("references")
       .findOneAndUpdate(
-        { id },
+        { id, ...(expectedUpdatedAt ? { updatedAt: expectedUpdatedAt } : {}) },
         {
           $set: Object.fromEntries(
             Object.entries(patch).filter(([, value]) => value !== undefined),
@@ -68,7 +68,7 @@ export async function updateReference(id: string, updates: Partial<Reference>) {
   const write = queue.then(async () => {
     const refs = await readLocal();
     const index = refs.findIndex((reference) => reference.id === id);
-    if (index < 0) return;
+    if (index < 0 || (expectedUpdatedAt && refs[index].updatedAt !== expectedUpdatedAt)) return;
     result = ReferenceSchema.parse({ ...refs[index], ...patch });
     refs[index] = result;
     const tmp = `${file}.${crypto.randomUUID()}.tmp`;
@@ -78,4 +78,24 @@ export async function updateReference(id: string, updates: Partial<Reference>) {
   queue = write.catch(() => {});
   await write;
   return result as Reference | null;
+}
+
+export async function deleteReference(id: string) {
+  if (process.env.MONGODB_URI) {
+    const result = await (await database()).collection<Reference>("references").deleteOne({ id });
+    return result.deletedCount === 1;
+  }
+  let deleted = false;
+  const write = queue.then(async () => {
+    const refs = await readLocal();
+    const remaining = refs.filter((reference) => reference.id !== id);
+    if (remaining.length === refs.length) return;
+    const tmp = `${file}.${crypto.randomUUID()}.tmp`;
+    await writeFile(tmp, JSON.stringify(remaining, null, 2));
+    await rename(tmp, file);
+    deleted = true;
+  });
+  queue = write.catch(() => {});
+  await write;
+  return deleted;
 }

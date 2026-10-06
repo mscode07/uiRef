@@ -17,6 +17,12 @@ Open http://127.0.0.1:3000 for the landing page, or http://127.0.0.1:3000/librar
 
 Without configuration, references are saved to `.data/references.json` and images to `.data/uploads/`. These files are ignored by Git. To use MongoDB, copy `.env.example` to `.env.local` and set `MONGODB_URI`; the database defaults to `designforme`. Existing local records are not migrated automatically.
 
+### Vercel storage and capture
+
+Use Node.js 22.17+ (22.x) or Node.js 24+ for the bundled browser. Set `MONGODB_URI` and `MONGODB_DB=designforme` in the Vercel Production environment, allow the deployment's connections in Atlas, and redeploy. With MongoDB configured, uploaded images and website captures are stored in the same database using GridFS (`screenshots.files` and `screenshots.chunks`), so images survive deployments and can be read by other function instances. The database user needs read/write permissions for this database. Existing local images are not migrated automatically.
+
+Vercel capture uses the bundled `@sparticuz/chromium` Linux browser, extracted into temporary execution storage. Next.js tracing includes its compressed binaries in capture functions. Leave `UIREF_BROWSER_PATH` unset on Vercel. After deploying this fix, reopen failed references and choose **Retry capture** (or **Refresh capture**) to generate their images. Local development continues to use installed Chrome or Playwright Chromium. Screenshot persistence never uses Vercel's temporary filesystem.
+
 Eight generated fictional sample references demonstrate the grid. Use **My references** to see only your own saved content.
 
 ## Current scope

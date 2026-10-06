@@ -15,9 +15,16 @@ export async function captureWebsiteInMemory(url: string) {
   const installedChrome =
     process.platform === "darwin" &&
     existsSync("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+  const serverless = process.env.VERCEL && !process.env.UIREF_BROWSER_PATH
+    ? (await import("@sparticuz/chromium")).default
+    : undefined;
   const browser = await chromium.launch({
     headless: true,
-    chromiumSandbox: true,
+    chromiumSandbox: !serverless,
+    ...(serverless ? {
+      args: serverless.args,
+      executablePath: await serverless.executablePath(),
+    } : {}),
     ...(process.env.UIREF_BROWSER_PATH
       ? { executablePath: process.env.UIREF_BROWSER_PATH }
       : installedChrome

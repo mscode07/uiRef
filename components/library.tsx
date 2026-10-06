@@ -107,6 +107,28 @@ export function Library() {
       void processReference(reference);
   }
   const [addOpen, setAddOpen] = useState(false);
+  const [editing, setEditing] = useState<Reference | null>(null);
+  const [deleting, setDeleting] = useState<Reference | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  async function confirmDelete() {
+    if (!deleting || deleteBusy) return;
+    setDeleteBusy(true);
+    setDeleteError("");
+    try {
+      const response = await fetch(`/api/references/${deleting.id}`, { method: "DELETE" });
+      if (!response.ok && response.status !== 404) {
+        const body = await response.json();
+        throw new Error(body.error || "Reference could not be deleted. Please retry.");
+      }
+      setReferences((items) => items.filter((item) => item.id !== deleting.id));
+      setSelected(null);
+      setDeleting(null);
+      setNotice("Reference deleted");
+    } catch (error) {
+      setDeleteError(error instanceof Error ? error.message : "Reference could not be deleted. Please retry.");
+    } finally { setDeleteBusy(false); }
+  }
   const [filterOpen, setFilterOpen] = useState(false);
   const [commands, setCommands] = useState(false);
   const [commandQuery, setCommandQuery] = useState("");
@@ -924,6 +946,8 @@ export function Library() {
         busy={!!selected && processing.includes(selected.id)}
         onClose={() => setSelected(null)}
         onProcess={processReference}
+        onEdit={(reference) => { setSelected(null); setEditing(reference); }}
+        onDelete={(reference) => { setSelected(null); setDeleteError(""); setDeleting(reference); }}
       />
       <AddReference
         open={addOpen}
@@ -938,6 +962,36 @@ export function Library() {
           void processReference(r);
         }}
       />
+      {editing && <AddReference
+        key={editing.id}
+        open
+        reference={editing}
+        onOpenChange={(open) => { if (!open) { setSelected(editing); setEditing(null); } }}
+        onSave={(reference) => {
+          setReferences((items) => items.map((item) => item.id === reference.id ? reference : item));
+          setEditing(null);
+          setSelected(reference);
+          setNotice("Reference updated");
+          if (!reference.insights) void processReference(reference);
+        }}
+      />}
+      <Dialog open={!!deleting} onOpenChange={(open) => {
+        if (!open && !deleteBusy) { setSelected(deleting); setDeleting(null); }
+      }}>
+        <DialogContent showCloseButton={!deleteBusy}>
+          <DialogTitle>Delete reference?</DialogTitle>
+          <DialogDescription className="break-words">
+            “{deleting?.name}” and its saved notes will be removed from your library. This cannot be undone.
+          </DialogDescription>
+          {deleteError && <p role="alert" className="text-sm text-destructive">{deleteError}</p>}
+          <div className="mt-4 flex flex-wrap justify-end gap-2">
+            <button autoFocus disabled={deleteBusy} className="min-h-11 rounded-md border border-border px-4 text-sm hover:bg-surface disabled:opacity-50"
+              onClick={() => { setSelected(deleting); setDeleting(null); }}>Cancel</button>
+            <button disabled={deleteBusy} className="min-h-11 rounded-md bg-destructive px-4 text-sm text-white hover:opacity-90 disabled:opacity-50"
+              onClick={confirmDelete}>{deleteBusy ? "Deleting…" : "Delete reference"}</button>
+          </div>
+        </DialogContent>
+      </Dialog>
       <Dialog open={commands} onOpenChange={setCommands}>
         <DialogContent
           motion={false}
@@ -1144,16 +1198,18 @@ function AddReference({
   open,
   onOpenChange,
   onSave,
+  reference,
 }: {
+  reference?: Reference;
   open: boolean;
   onOpenChange: (v: boolean) => void;
   onSave: (r: Reference) => void;
 }) {
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [likes, setLikes] = useState("");
-  const [notes, setNotes] = useState("");
-  const [category, setCategory] = useState("Other");
+  const [name, setName] = useState(reference?.name || "");
+  const [url, setUrl] = useState(reference?.url || "");
+  const [likes, setLikes] = useState(reference?.likes || "");
+  const [notes, setNotes] = useState(reference?.notes || "");
+  const [category, setCategory] = useState<string>(reference?.category || "Other");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState("");
@@ -1191,12 +1247,13 @@ function AddReference({
       likes,
       notes,
       category,
+      ...(reference ? { styles: reference.styles, tags: reference.tags, density: reference.density } : {}),
     });
     if (!parsed.success) {
       setError(parsed.error.issues[0].message);
       return;
     }
-    if (!file && !url) {
+    if (!file && !url && !reference?.screenshot) {
       setError("Add a screenshot or a website URL.");
       return;
     }
@@ -1211,14 +1268,15 @@ function AddReference({
         if (!res.ok) throw new Error(data.error);
         screenshot = data.url;
       }
-      const res = await fetch("/api/references", {
-        method: "POST",
+      const res = await fetch(reference ? `/api/references/${reference.id}` : "/api/references", {
+        method: reference ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...parsed.data, screenshot }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       onSave(data);
+      if (reference) return;
       onOpenChange(false);
       setName("");
       setUrl("");
@@ -1244,9 +1302,9 @@ function AddReference({
           "max-[701px]:[&_[data-slot=dialog-description]]:pr-2",
         )}
       >
-        <DialogTitle>Add a reference</DialogTitle>
+        <DialogTitle>{reference ? "Edit reference" : "Add a reference"}</DialogTitle>
         <DialogDescription>
-          Save the interface. Remember what you liked.
+          {reference ? "Update the details, notes, or screenshot." : "Save the interface. Remember what you liked."}
         </DialogDescription>
         <form onSubmit={submit}>
           <div className="form-fields flex flex-col gap-[18px] overflow-y-auto overscroll-contain px-1 pt-1 pb-[18px] max-[701px]:gap-4">
@@ -1293,10 +1351,10 @@ function AddReference({
                 choose(e.dataTransfer.files[0]);
               }}
             >
-              {preview ? (
+              {(preview || reference?.screenshot) ? (
                 <>
-                  <img src={preview} alt="Screenshot to upload" />
-                  <span>{file?.name} · Change screenshot</span>
+                  <img src={preview || reference?.screenshot} alt="Reference screenshot" />
+                  <span>{file?.name || "Saved screenshot"} · Change screenshot</span>
                 </>
               ) : (
                 <>
@@ -1387,7 +1445,7 @@ function AddReference({
                 onChange={(e) => setLikes(e.target.value)}
               />
             </label>
-            <details className="optional-notes text-[12px] text-muted-foreground [&_summary]:cursor-pointer [&_textarea]:mt-2">
+            <details open={!!reference || undefined} className="optional-notes text-[12px] text-muted-foreground [&_summary]:cursor-pointer [&_textarea]:mt-2">
               <summary>Add notes</summary>
               <label
                 className={cn(
@@ -1454,7 +1512,7 @@ function AddReference({
               )}
               disabled={saving}
             >
-              {saving ? "Saving reference…" : "Save reference"}
+              {saving ? "Saving…" : reference ? "Save changes" : "Save reference"}
             </button>
           </div>
         </form>
